@@ -4,13 +4,12 @@
       <title>Bouncing Balls</title>
       <style>
          body {
-		    margin: 10;
-			border: 0;
+   margin: 10;
+border: 0;
             background: #dddddd;
-			overflow: hidden;
+overflow: hidden;
          }
          #canvas {
-            margin-top: 10px;
             background: #ffffff;
             border: 10px solid #aaaaaa;
          }
@@ -21,129 +20,141 @@
      <canvas id='canvas'  onmousemove="getMousePos(event)">
          Canvas not supported
      </canvas>
+
      <script>
-	   var canvas=document.getElementById('canvas');
+  var canvas=document.getElementById('canvas');
        var context = canvas.getContext('2d');
-
-	   function drawgrid() {
-
-	       	context.font = "30px Arial";
-	context.fillStyle = "red";
+   
+  canvas.width=window.innerWidth-20-20;  //minus margin space, and boarder space
+       canvas.height=window.innerHeight-20-20; //minus margin space, and boarder space
+ 
+  function drawgrid() {
+      context.font = "30px Arial";
+context.fillStyle = "red";
 context.textAlign = "center";
 context.strokeStyle = "lightgray";
 context.fillText("Happy Birthday, Emily ! ", canvas.width/2, canvas.height/2);
 
+  context.lineWidth = 0.5;
+  context.strokeStyle = "lightgray";
+  var stepx=10;
+  var stepy=10;
+  for (var i = stepx ; i < context.canvas.width; i += stepx) {
+ context.beginPath();
+ context.moveTo(i, 0);
+ context.lineTo(i, context.canvas.height);
+ context.stroke();
+  }
 
-		   context.lineWidth = 0.5;
-		   context.strokeStyle = "lightgray";
-		   var stepx=10;
-		   var stepy=10;
-		   for (var i = stepx ; i < context.canvas.width; i += stepx) {
-			  context.beginPath();
-			  context.moveTo(i, 0);
-			  context.lineTo(i, context.canvas.height);
-			  context.stroke();
-		   }
+  for (var i = stepy + 0.5; i < context.canvas.height; i += stepy) {
+ context.beginPath();
+ context.moveTo(0, i);
+ context.lineTo(context.canvas.width, i);
+ context.stroke();
+  }
+  }
 
-		   for (var i = stepy + 0.5; i < context.canvas.height; i += stepy) {
-			  context.beginPath();
-			  context.moveTo(0, i);
-			  context.lineTo(context.canvas.width, i);
-			  context.stroke();
-		   }
-	   }
+       // ball init position and radius
+  var x=100;
+  var y=100;
+  //var r= 50*Math.random();
+  var r=22;
 
-	   	var xr=200;
-		var yr;
-		var bar_w=160;
-	//   context.beginPath();
-	   var x=100;
-	   var y=100;
-	   var r= 50*Math.random();
-	  // var deltax=3*Math.random();
-	   //var deltay=3*Math.random();
-	   var deltax=5;
-	   var deltay=5;
-	   var c='rgba(' + (Math.random()*255).toFixed(0) + ', ' +
-							(Math.random()*255).toFixed(0) + ', ' +
-							(Math.random()*255).toFixed(0) + ', 1.0)' ;
-	//   context.arc(x, y, r, 0, Math.PI*2, false);
-	//   context.fillStyle = c;
-	//   context.fill();
+  var barx=200;
+  var bary=window.innerHeight-30-20-150;
+  var barw=160;
 
+       // steps
+  var deltax=2;
+  var deltay=2;
+  var c='rgba(' + (Math.random()*255).toFixed(0) + ', ' +
+(Math.random()*255).toFixed(0) + ', ' +
+(Math.random()*255).toFixed(0) + ', 1.0)' ;
+//   context.arc(x, y, r, 0, Math.PI*2, false);
+//   context.fillStyle = c;
+//   context.fill();
 
-		setInterval(moveball, 10);
+var interval_var=setInterval(moveball, 5);
 
-		var by=window.innerHeight-30-20-150;
+function drawbar(x) {
+context.beginPath();
+context.lineWidth = 20;
+context.lineCap="round";
+context.moveTo(x,bary);
+context.lineTo(x+barw,bary);
+context.strokeStyle = "blue";
+context.stroke();
+}
 
-		function drawbar(x) {
-			context.beginPath();
-			context.lineWidth = 20;
-			context.lineCap="round";
-			context.moveTo(x,by);
-			context.lineTo(x+bar_w,by);
-			 context.strokeStyle = "blue";
-			context.stroke();
-		}
-
-	     var img = new Image();
+    var img = new Image();
          img.src = "grass.png";
+         var imgheight=(canvas.height)*300/1200;
 
-		function moveball() {
-	  	    canvas.width=window.innerWidth-20-20;
-            canvas.height=window.innerHeight-30-20;
-
-		   context.clearRect(0, 0, canvas.width, canvas.height);
+function moveball() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
 
            //detect the collision with the boundary
-		   if (x + deltax + r > context.canvas.width || x +deltax - r < 0)  {
-			   deltax = -deltax;
-		   }
-		   if (y + deltay + r > context.canvas.height || y +deltay - r < 0)  {
-			   deltay = -deltay;
-		   }
+     
+  if (x + deltax + r > context.canvas.width || x +deltax - r < 0)  {
+  deltax = -deltax;
+  }
+  //if (y + deltay + r > context.canvas.height || y +deltay - r < 0)  {  
+  if ( y +deltay - r < 0)  {    
+  deltay = -deltay;
+  }
 
-		  //detect collision with the bar
+ //detect collision with the bar
 
-		  var nextx=x+deltax;
-		  var nexty=y+deltay;
+ var nextx=x+deltax;
+ var nexty=y+deltay;
 
-          if ((nextx>=xr) && (nextx<=xr+bar_w) && (by-nexty>0)) {  //nextx is between xr and xr+200
-              if (Math.abs((by-nexty)-r)<2) {               //the height from center to the bar is less than r
+          //if ((nextx>=barx) && (nextx<=barx+barw) && (bary-nexty>0)) {  //nextx is between barx and barx+200
+
+          if ((nextx>=barx) && (nextx<=barx+barw) ) {  //nextx is between barx and barx+200  
+              if (Math.abs((bary-nexty)-r)<2) {               //the height from center to the bar is less than r
                   deltay=-deltay;
               }
           }
 
 
-		  x += deltax;
-		  y += deltay;
+ x += deltax;
+ y += deltay;
 
-		  drawgrid();
+ drawgrid();
 
 
-            var imgheight=(canvas.height)*300/1200;
+
             context.drawImage(img, 0,canvas.height-imgheight, canvas.width, imgheight);
 
-		  context.beginPath();
-		  context.arc(x, y, r, 0, Math.PI*2, false);
-		  context.fillStyle = c;
-		  context.fill();
+ context.beginPath();
+ context.arc(x, y, r, 0, Math.PI*2, false);
+ context.fillStyle = c;
+ context.fill();
 
-		  drawbar(xr);
+ drawbar(barx);
+ 
+ 
+   //game over
+if (nexty - canvas.height > 0) {
+     context.fillText("Game Over, Refresh browser to start a new one !!", canvas.width/2, canvas.height/2+60);
+ clearInterval(interval_var);
+ 
+}  
+ 
+}
 
 
+function getMousePos(evt) {
+var rect = canvas.getBoundingClientRect();
+var temp=evt.clientX - rect.left + 10;
 
-
-		}
-
-
-		function getMousePos(evt) {
-			var rect = canvas.getBoundingClientRect();
-			xr=evt.clientX - rect.left;
-			yr=evt.clientY - rect.top;
+if (temp + barw > canvas.width-10) {
+  barx=canvas.width-barw-10;
+} else {
+  barx=temp;
+}
         }
 
-
-	</script>
+</script>
   </body>
 </html>
