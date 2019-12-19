@@ -1,110 +1,161 @@
 <!DOCTYPE html>
 <html>
-<head>
-<style>
-#test {
-	position:fixed;
-    border-radius: 50%;
-	top:0;
-	left:0;
-	z-index: -1;
-	width: 100px;
-	height: 100px;
-}
-#demo {
-   position:fixed;
-   bottom:0;
-   left:0;
-}
-</style>
-</head>
-<body onclick="movepic(event)"  ontouchstart="touchmovepic(event)">
+   <head>
+      <title>Bouncing Balls</title>
+      <style>
+         body {
+   margin: 10;
+border: 0;
+            background: #dddddd;
+overflow: hidden;
+         }
+         #canvas {
+            background: #ffffff;
+            border: 10px solid #aaaaaa;
+         }
+      </style>
+   </head>
+   <body>
 
-<h2>aaa Rounded Images</h2>
+     <canvas id='canvas'  onmousemove="getMousePos(event)">
+         Canvas not supported
+     </canvas>
 
-<p>Use the border-radius property to create circled images:</p>
+     <script>
+  var canvas=document.getElementById('canvas');
+       var context = canvas.getContext('2d');
+   
+  canvas.width=window.innerWidth-20-20;  //minus margin space, and boarder space
+       canvas.height=window.innerHeight-20-20; //minus margin space, and boarder space
+ 
+  function drawgrid() {
+      context.font = "30px Arial";
+context.fillStyle = "red";
+context.textAlign = "center";
+context.strokeStyle = "lightgray";
+context.fillText("Happy Birthday, Emily ! ", canvas.width/2, canvas.height/2);
 
-<p>
-Republicans, say goodbye to the undercard debates.
-Next week's ABC News Republican primary debate in Manchester, New Hampshire, will feature just one debate, and that debate is likely to exclude several bottom-tier candidates, CNNMoney has learned.
-</p>
-<p>
-For the first time in the GOP debate season there will not be what has been called the "junior varsity," "the kids' table" or the "warm up" debate.
-The criteria for the February 6 debate, which is set to be released Wednesday afternoon, will exclude any candidate who does not finish in the top-three in the Iowa caucuses or in the top six either nationally or in New Hampshire.
-At present, such criteria would likely keep Rand Paul, Carly Fiorina, Mike Huckabee and Rick Santorum off the debate stage -- unless they can pull their numbers up in the days ahead.
-Related: Donald Trump and Fox at war: Neither side is backing down
-The forthcoming criteria from ABC News is as follows: Candidates must do one of the following:
-</p>
-<p>
--- Place among the top three candidates ranked according to the popular vote in the Iowa Republican caucuses on February 1, 2016.
--- Place among the top six candidates in an average of New Hampshire Republican presidential polls recognized by ABC News. To be included, polls must be conducted no earlier than January 1, 2016, and must be released to the public before 5 p.m. ET on February 4, 2016. Poll averages will not be rounded.
--- Place among the top six candidates in an average of national Republican presidential polls recognized by ABC News. To be included, polls must be conducted no earlier than January 1, 2016, and must be released to the public before 5 p.m. ET on February 4, 2016. Poll averages will not be rounded.
-Donald Trump is skipping Thursday's GOP debate and going to war with the Fox News Channel.
-Instead of attending the debate, "We'll have an event here in Iowa, with potentially another network, to raise money for wounded warriors," campaign manager Corey Lewandowski said. "And Fox will go from probably having 24 million viewers to about 2 million."
-</p>
-<p>
-Updates: Read the latest on the Trump-Fox war
-</p>
-<p>The fracas escalated quickly on Tuesday, but was the culmination of months of tension between the GOP frontrunner and the Fox News host Megyn Kelly.
-At the end of the day, Fox said Trump "is still welcome" at the debate "and will be treated fairly," but the network also slammed Trump for "viciously" attacking Kelly and accused Lewandowski of threatening her.
-In a statement, a Fox News spokesperson said Lewandowski told a Fox executive last Saturday that Kelly had a "rough couple of days after that last debate" and he "would hate to have her go through that again."
-"Lewandowski was warned not to level any more threats, but he continued to do so," Fox said. "We can't give in to terrorizations toward any of our employees."
-</p>
+  context.lineWidth = 0.5;
+  context.strokeStyle = "lightgray";
+  var stepx=10;
+  var stepy=10;
+  for (var i = stepx ; i < context.canvas.width; i += stepx) {
+ context.beginPath();
+ context.moveTo(i, 0);
+ context.lineTo(i, context.canvas.height);
+ context.stroke();
+  }
 
-<img id="test" src="http://www.w3schools.com/css/paris.jpg" alt="Paris">
+  for (var i = stepy + 0.5; i < context.canvas.height; i += stepy) {
+ context.beginPath();
+ context.moveTo(0, i);
+ context.lineTo(context.canvas.width, i);
+ context.stroke();
+  }
+  }
 
-<p id="demo"></p>
-<script>
+       // ball init position and radius
+  var x=100;
+  var y=100;
+  //var r= 50*Math.random();
+  var r=22;
 
-//var imgtest=document.querySelector("#test");
-var imgtest=document.getElementById("test");
+  var barx=200;
+  var bary=window.innerHeight-30-20-150;
+  var barw=160;
 
-//setInterval(run, 400);
-var x=0;
-var y=0;
+       // steps
+  var deltax=2;
+  var deltay=2;
+  var c='rgba(' + (Math.random()*255).toFixed(0) + ', ' +
+(Math.random()*255).toFixed(0) + ', ' +
+(Math.random()*255).toFixed(0) + ', 1.0)' ;
+//   context.arc(x, y, r, 0, Math.PI*2, false);
+//   context.fillStyle = c;
+//   context.fill();
 
-function run() {
-  x=Math.random()*1200;
-  y=Math.random()*600;
-  var dd=Math.random()*400;
-  var w=50+dd;
-  var h=50+dd;
-  imgtest.style.left=x+"px";
-  imgtest.style.top=y+"px";
-  imgtest.style.width=w+"px";
-  imgtest.style.height=h+"px";
-}
+var interval_var=setInterval(moveball, 5);
 
-function movepic(event) {
-    var x = event.clientX;
-    var y = event.clientY;
-    var coords = "X coords: " + x + ", Y coords: " + y;
-    document.getElementById("demo").innerHTML = coords;
-  var dd=Math.random()*400;
-  var w=50+dd;
-  var h=50+dd;
-  imgtest.style.left=x+"px";
-  imgtest.style.top=y+"px";
-  imgtest.style.width=w+"px";
-  imgtest.style.height=h+"px";
-
+function drawbar(x) {
+context.beginPath();
+context.lineWidth = 20;
+context.lineCap="round";
+context.moveTo(x,bary);
+context.lineTo(x+barw,bary);
+context.strokeStyle = "blue";
+context.stroke();
 }
 
-function touchmovepic(event) {
-    var x = event.touches[0].pageX;
-    var y = event.touches[0].pageY;
-    var coords = "X coords: " + x + ", Y coords: " + y;
-    document.getElementById("demo").innerHTML = coords;
-  var dd=Math.random()*400;
-  var w=50+dd;
-  var h=50+dd;
-  imgtest.style.left=x+"px";
-  imgtest.style.top=y+"px";
-  imgtest.style.width=w+"px";
-  imgtest.style.height=h+"px";
+    var img = new Image();
+         img.src = "grass.png";
+         var imgheight=(canvas.height)*300/1200;
 
+function moveball() {
+  context.clearRect(0, 0, canvas.width, canvas.height);
+
+           //detect the collision with the boundary
+     
+  if (x + deltax + r > context.canvas.width || x +deltax - r < 0)  {
+  deltax = -deltax;
+  }
+  //if (y + deltay + r > context.canvas.height || y +deltay - r < 0)  {  
+  if ( y +deltay - r < 0)  {    
+  deltay = -deltay;
+  }
+
+ //detect collision with the bar
+
+ var nextx=x+deltax;
+ var nexty=y+deltay;
+
+          //if ((nextx>=barx) && (nextx<=barx+barw) && (bary-nexty>0)) {  //nextx is between barx and barx+200
+
+          if ((nextx>=barx) && (nextx<=barx+barw) ) {  //nextx is between barx and barx+200  
+              if (Math.abs((bary-nexty)-r)<2) {               //the height from center to the bar is less than r
+                  deltay=-deltay;
+              }
+          }
+
+
+ x += deltax;
+ y += deltay;
+
+ drawgrid();
+
+
+
+            context.drawImage(img, 0,canvas.height-imgheight, canvas.width, imgheight);
+
+ context.beginPath();
+ context.arc(x, y, r, 0, Math.PI*2, false);
+ context.fillStyle = c;
+ context.fill();
+
+ drawbar(barx);
+ 
+ 
+   //game over
+if (nexty - canvas.height > 0) {
+     context.fillText("Game Over, Refresh browser to start a new one !!", canvas.width/2, canvas.height/2+60);
+ clearInterval(interval_var);
+ 
+}  
+ 
 }
+
+
+function getMousePos(evt) {
+var rect = canvas.getBoundingClientRect();
+var temp=evt.clientX - rect.left + 10;
+
+if (temp + barw > canvas.width-10) {
+  barx=canvas.width-barw-10;
+} else {
+  barx=temp;
+}
+        }
 
 </script>
-</body>
+  </body>
 </html>
+
