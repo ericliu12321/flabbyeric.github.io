@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+  input[type=submit], input[type=button] {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 16px 32px;
+    text-decoration: none;
+    margin: 4px 2px;
+    cursor: pointer;
+  }
+
+  input[type=text] {
+
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    border: 2px solid green;
+    border-radius: 4px;
+  }
+  </style>
+
+  <script type = "text/javascript">
+
+    function myfun(){
+        var txtName = document.getElementById("txtName");
+        var txtOutput = document.getElementById("txtOutput");
+     //   var txtTemp = document.getElementById("txtTemp");        
+       
+        //step1
+        var text1 = txtName.value;
+       
+        //step2
+        var text2=text1.toUpperCase();
+       
+        //step3
+        var temp=text2.length%2;
+        var text3;
+        if (temp == 0 ) {
+          text3=text2+"$";
+        } else {
+          text3=text2+"%";
+        }
+         
+        //step4
+        temp=text3.length%2;
+        var text40;
+        if (temp == 0 ) {
+          text40=text3+"$";
+        } else {
+          text40=text3+"%";
+        }
+       
+        temp=text40.length%2;
+        var text4;
+        if (temp == 0 ) {
+          text4=text40+"$";
+        } else {
+          text4=text40+"%";
+        }
+       
+        //step5
+        temp=text4.length;
+        var text5=text4+temp;
+       
+        //step6
+        temp=temp-2;
+        var text6=text5+temp;
+       
+        //step7
+        temp=text6.length;
+        var text7=text6;
+        if (temp == 1) {
+          text7=text7+"o";
+        }
+       
+       //step8 split by half
+       temp=text7.length;
+       mid=temp/2;
+       name1=text7.slice(0,mid);
+       name2=text7.slice(mid,);
+       
+       //step9  merge
+       var i=0;
+       var char_array=[];
+       for (i=0; i<mid; i++) {
+         char_array.push(name2[i]);
+char_array.push(name1[i]);
+       }
+       
+  //step10 make vowels lower case
+  for (i=0; i<char_array.length; i++) {
+    var x=char_array[i];
+if (x == "A") {  char_array[i]="a" };
+if (x == "E") {  char_array[i]="e" };
+if (x == "I") {  char_array[i]="i" };
+if (x == "O") {  char_array[i]="o" };
+if (x == "U") {  char_array[i]="u" };
+  }
+ 
+  //step 11
+  var text11=char_array.join("");
+  var before11=text11;
+  //alert(text11);
+ 
+  var len0=char_array.length;
+  var len=len0;
+  //alert(len);
+ 
+  while (len<10) {    //adding !@
+    char_array.push("!");
+char_array.push("@");
+len=char_array.length;
+  }
+ 
+  var char_array1=[];
+  if (len0<10) {  //there might be 11 element, so reset to 10
+
+    var i;
+for (i=0; i<10; i++) {
+  char_array1.push(char_array[i]);
+}
+text11=char_array1.join("");
+  }
+ 
+      //  txtTemp.value=before11;
+        txtOutput.value = text11;
+
+    }
+  </script>
+</head>
+
+<body>
+  <p><b>Password Generation</b></p>
+  <form action="">
+          <p>
+              <label>Clear Text</label>
+              <input type="text" id="txtName" />
+          </p>
+         
+          <p>
+              <label>Password</label>
+              <input type="text"  id="txtOutput"/>
+          </p>
+         
+          <p>
+              <input type = "button"  value = "Encrypt" onclick = "myfun()"/><br>            
+          </p>
+<!--          
+          <p>
+              <label>temp</label>
+              <input type="text"  id="txtTemp"/>
+          </p>          
+-->        
+  </form>
+ 
+</body>
+</html>
