@@ -28,6 +28,7 @@
 		background-color: CadetBlue;
 	}
 </style>
+<script src='https://code.responsivevoice.org/responsivevoice.js'></script>
 </head>
 <body>
 <div id="disp"><span id="cheese">2</span>:<span id="yogurt">00</span></div>
@@ -61,6 +62,7 @@ function mere(){
 		document.getElementById("cheese").innerHTML = "00";
 		document.getElementById("yogurt").innerHTML = "00";
 		document.getElementById("poop").innerHTML="TimeOver";
+		responsiveVoice.speak("Time is up.");
 	}
 	else{
 		Q = OverPowered%60;
