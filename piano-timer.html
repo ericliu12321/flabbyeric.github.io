@@ -58,9 +58,9 @@ function mere(){
 	OverPowered = OverPowered - 1;
 	if(OverPowered <= 0){
 		clearInterval(timerHandle);
-		document.getElementById("cheese") = "00";
-		document.getElementById("yogurt") = "00";
-		document.getElementById("poop") = "TimeOver";
+		document.getElementById("cheese").innerHTML = "00";
+		document.getElementById("yogurt").innerHTML = "00";
+		document.getElementById("poop").innerHTML="TimeOver";
 	}
 	else{
 		Q = OverPowered%60;
